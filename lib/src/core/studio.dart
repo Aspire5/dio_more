@@ -3,6 +3,7 @@ import 'config.dart';
 import 'context.dart';
 import 'event_bus.dart';
 import 'logger.dart';
+import '../features/registry/registry_plugin.dart';
 import '../interceptors/studio_interceptor.dart';
 import '../plugins/plugin.dart';
 import '../plugins/plugin_manager.dart';
@@ -23,7 +24,13 @@ class DioStudio {
   factory DioStudio.create(Dio dio, {List<DioStudioPlugin> plugins = const []}) {
     final eventBus = StudioEventBus();
     final logger = StudioLogger();
-    final pluginManager = PluginManager(plugins);
+    
+    // Core built-in plugins
+    final corePlugins = <DioStudioPlugin>[
+      ApiRegistryPlugin(),
+    ];
+    
+    final pluginManager = PluginManager([...corePlugins, ...plugins]);
     return DioStudio._(dio, pluginManager, eventBus, logger);
   }
 
@@ -52,10 +59,7 @@ class DioStudio {
     if (_disposed) throw StateError('Cannot enable a disposed DioStudio instance.');
     if (_attached) return;
 
-    _config = DioStudioConfig(
-      enabled: true,
-      enabledFeatures: _config.enabledFeatures,
-    );
+    _config = _config.copyWith(enabled: true);
 
     _context.config = _config;
 
@@ -69,10 +73,7 @@ class DioStudio {
   void disable() {
     if (_disposed || !_attached) return;
 
-    _config = DioStudioConfig(
-      enabled: false,
-      enabledFeatures: _config.enabledFeatures,
-    );
+    _config = _config.copyWith(enabled: false);
 
     _context.config = _config;
 
@@ -95,11 +96,7 @@ class DioStudio {
       throw StateError('Cannot register plugins while DioStudio is active. Disable it first.');
     }
 
-    final existing = <DioStudioPlugin>[];
-    existing.addAll(_pluginManager.requestPipeline.cast<DioStudioPlugin>());
-    existing.addAll(_pluginManager.responsePipeline.cast<DioStudioPlugin>());
-    existing.addAll(_pluginManager.errorPipeline.cast<DioStudioPlugin>());
-    
+    final existing = _pluginManager.allPlugins;
     final Set<DioStudioPlugin> all = {...existing, plugin};
     
     final wasAttached = _attached;

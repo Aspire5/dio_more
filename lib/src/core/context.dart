@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import '../features/registry/registry.dart';
 import 'config.dart';
 import 'event_bus.dart';
 import 'logger.dart';
@@ -24,4 +25,7 @@ class StudioContext {
 
   /// Internal event coordinator.
   final StudioEventBus eventBus;
+
+  /// Retrieves the active URL registry.
+  ApiRegistry? get registry => config.registry;
 }

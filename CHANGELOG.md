@@ -7,6 +7,17 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+## [0.0.2] - 2026-07-01
+
+### Added
+- Immutable `ApiRegistry` and `ApiRegistryBuilder` supporting environment management, multiple services with base URL prefixing, and pre-compiled endpoint path template segments.
+- Compile-time safe identifier extension types: `EnvironmentId`, `ServiceId`, and `EndpointId`.
+- Options extension helper method `Options.withPathParams()` for cleanly passing path parameter arguments.
+- Core interceptor plugin (`ApiRegistryPlugin`) delivering O(1) direct map lookup resolution.
+- Plugin Integration Contract to attach compiled metadata configurations directly to `RequestOptions.extra`.
+
+## [0.0.1] - 2026-06-30
+
 ### Added
 - Project documentation system (`docs/` directory) with architecture, decisions, roadmap, coding guidelines, plugin design, and development log.
 - AI collaboration rules (`.agents/AGENTS.md`) for consistent development across sessions.

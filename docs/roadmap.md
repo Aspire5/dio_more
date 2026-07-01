@@ -4,13 +4,14 @@ Track all features through their lifecycle stages.
 
 ## Completed
 
-_None yet (Phase 1 setup in progress)._
-
-## In Progress
-
 | Feature | Description | Target Version |
 | ------- | ----------- | -------------- |
 | Phase 1: Foundation | Base context, topologically-sorted Plugin system, Event Bus, configurations, lints, and CI pipelines | `0.0.1` |
+| Phase 2: API Registry | Immutable environment/service URL lookup system with pre-compiled path template resolution and O(1) performance | `0.0.2` |
+
+## In Progress
+
+_None yet (Phase 2 completed)._
 
 ## Planned
 
@@ -42,4 +43,4 @@ Features that were considered and explicitly rejected.
 
 ---
 
-Last updated: 2026-06-30
+Last updated: 2026-07-01

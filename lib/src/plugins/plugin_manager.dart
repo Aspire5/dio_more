@@ -21,6 +21,9 @@ class PluginManager {
   /// Flat execution pipeline for request modification.
   List<RequestPlugin> get requestPipeline => _requestPipeline;
 
+  /// Retrieves all registered plugins.
+  List<DioStudioPlugin> get allPlugins => List.unmodifiable(_allPlugins);
+
   /// Flat execution pipeline for response modification.
   List<ResponsePlugin> get responsePipeline => _responsePipeline;
 

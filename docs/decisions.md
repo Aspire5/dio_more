@@ -214,6 +214,31 @@ Forcing dependency on specific engines (Hive, Isar, file system) limits usage fl
 **Cons:**
 - Feature plugins must implement or request their own storage bindings.
 
+## ADR-009: API Registry System Architecture
+
+**Date:** 2026-07-01
+
+**Decision:**
+Implement an immutable API Registry system mapping business-identity endpoint constants (`EndpointId`) to compile-time parsed configurations (`EndpointDefinition`). The identity and configuration of endpoints remain independent of runtime parameters, which are provided separately using standard Dio `Options` with a custom extension (`withPathParams`).
+
+**Reasoning:**
+Separating endpoint configuration from parameter injection ensures that endpoint identities are stable and easily referenced by downstream plugins. Replacing raw string configurations with Dart 3.3 extension types (`EnvironmentId`, `ServiceId`, `EndpointId`) guarantees type-safety and autocomplete at compile time with zero runtime allocation overhead. Pre-compiling URL templates at initialization eliminates regular expression parsing inside the hot interceptor path.
+
+**Alternatives considered:**
+1. Dynamically matching patterns at runtime using standard regex scans.
+   - Rejected: Introduces substantial performance overhead.
+2. Embedding path parameters inside `EndpointId` strings (e.g., `Api.user.profile.withParams(...)`).
+   - Rejected: Mutates the unique business identity string and introduces extra string allocations on the request hot path.
+
+**Pros:**
+- Complete compile-time type-safety and autocomplete for environments, services, and endpoints.
+- High performance via O(1) direct map lookup and pre-compiled segment loops.
+- Clean separation of concerns between static identities and runtime values.
+- Seamless optional adoption for traditional URL requests.
+
+**Cons:**
+- Requires Dart 3.3+ for extension type support.
+
 ---
 
 _Add new decisions above this line. Use sequential numbering: ADR-009, ADR-010, etc._

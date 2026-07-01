@@ -14,33 +14,72 @@ When a breaking change is introduced:
 
 ---
 
-## Migrations
+### Migrating to API Registry (Version 0.0.2+)
 
-_No migrations yet. The package is in initial development._
-
-_Migration entries will follow this format:_
-
-### Migrating from X.Y.Z to A.B.C
-
-**Breaking changes:**
-- Description of what changed.
+**Changes:**
+- Introduces `ApiRegistry` and `ApiRegistryBuilder` to model environments, services, and endpoints.
+- Replaces raw string URL parameters in Dio calls with strongly typed compile-time `EndpointId` constants.
+- Passes runtime path parameters separately using `Options.withPathParams`.
 
 **Why this changed:**
-- Explanation of the reasoning.
+Improves compile-time type-safety, centralizes endpoint configurations, and pre-compiles path templates to eliminate regular expression matching overhead on the request hot path.
 
 **Before:**
 ```dart
-// Old usage
+final response = await dio.get('https://api.myapp.com/user/profile/$userId');
 ```
 
 **After:**
 ```dart
-// New usage
+// 1. Define endpoint constants
+abstract class Services {
+  static const user = ServiceId('user');
+}
+
+abstract class Api {
+  static const user = _User();
+}
+
+class _User {
+  const _User();
+  final profile = const EndpointId('user.profile');
+}
+
+// 2. Configure and build registry
+final registry = ApiRegistry.builder()
+    .environment(EnvironmentId.production, baseUrl: 'https://api.myapp.com')
+    .service(Services.user, path: '/user')
+    .endpoint(
+      id: Api.user.profile,
+      path: '/profile/:id',
+      service: Services.user,
+    )
+    .build(EnvironmentId.production);
+
+dio.enableStudio(
+  config: DioStudioConfig(
+    enabled: true,
+    registry: registry,
+  ),
+);
+
+// 3. Invoke request with parameter extension
+final response = await dio.get(
+  Api.user.profile,
+  options: Options().withPathParams({'id': userId}),
+);
 ```
 
 **Steps:**
-1. Step-by-step migration instructions.
+1. Declare your `ServiceId` and `EndpointId` identifiers using standard static constants.
+2. Initialize `ApiRegistry` using `ApiRegistry.builder()`.
+3. Pass the built registry instance during `dio.enableStudio()` configuration.
+4. Replace raw string URL paths in Dio request invocations with the corresponding `EndpointId` constants, passing path parameters inside `Options().withPathParams()`.
 
 ---
 
-Last updated: 2026-06-30
+_Migration entries will follow this format._
+
+---
+
+Last updated: 2026-07-01

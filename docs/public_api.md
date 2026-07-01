@@ -13,6 +13,9 @@ Every addition, modification, or removal of a public API must be reflected here.
 | `DioStudioPlugin` | Base class for constructing custom extensions. |
 | `StudioContext` | Execution context interface exposed to plugins during initialization. |
 | `PluginMetadata` | Registration model containing plugin description and compatibility. |
+| `ApiRegistry` | Immutable API configurations lookup registry. |
+| `ApiRegistryBuilder` | Fluent builder to configure environments, services, and endpoints. |
+| `EndpointDefinition` | Compiled metadata description of an API endpoint configuration. |
 
 ## Exported Interface Mixins
 
@@ -28,12 +31,16 @@ Every addition, modification, or removal of a public API must be reflected here.
 | Extension | Target | Purpose |
 | --------- | ------ | ------- |
 | `DioStudioExtension` | `Dio` | Attaches `.studio` property and `.enableStudio()` initializer. |
+| `OptionsStudioExtension` | `Options` | Adds `.withPathParams()` helper to define request path parameters. |
 
 ## Exported Types / Enums
 
 | Type | Target | Purpose |
 | ---- | ------ | ------- |
 | `StorageAdapter` | `interface class` | Unopinionated key-value storage abstraction. |
+| `EndpointId` | `extension type` | Strongly typed endpoint business identifier representation. |
+| `EnvironmentId` | `extension type` | Strongly typed environment configuration identifier representation. |
+| `ServiceId` | `extension type` | Strongly typed service path prefix identifier representation. |
 
 ## Deprecated APIs
 
@@ -41,4 +48,4 @@ _None._
 
 ---
 
-Last updated: 2026-06-30
+Last updated: 2026-07-01

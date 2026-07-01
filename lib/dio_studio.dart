@@ -30,3 +30,14 @@ export 'src/plugins/plugin.dart'
         ResponsePlugin,
         ErrorPlugin,
         LifecyclePlugin;
+
+// Registry Features
+export 'src/features/registry/endpoint.dart' show EndpointId, EndpointDefinition;
+export 'src/features/registry/registry.dart'
+    show
+        EnvironmentId,
+        ServiceId,
+        ApiRegistry,
+        ApiRegistryBuilder,
+        OptionsStudioExtension;
+

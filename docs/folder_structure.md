@@ -35,6 +35,7 @@ dio_studio/
 |           |-- README.md      # Guidelines for future adapters
 |       |-- plugins/           # Base plugin structures and managers
 |       |-- features/          # Feature modules (isolated compile units)
+|           |-- registry/      # Compile-time safe API Registry modules
 |           |-- mock/          # Mock engine modules
 |           |-- record/        # Recording/replay modules
 |           |-- network/       # Simulator modules

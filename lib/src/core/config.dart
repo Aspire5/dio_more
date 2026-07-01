@@ -1,3 +1,5 @@
+import '../features/registry/registry.dart';
+
 /// Feature identifiers to toggle specific plugin sets.
 class StudioFeature {
   /// Create a new [StudioFeature] with target [id].
@@ -22,12 +24,12 @@ abstract final class StudioFeatures {
   static const inspector = StudioFeature('core.inspector');
 }
 
-/// Immutable configuration options for [DioStudio].
 class DioStudioConfig {
   /// Create a new [DioStudioConfig] options instance.
   const DioStudioConfig({
     this.enabled = true,
     this.enabledFeatures = const {},
+    this.registry,
   });
 
   /// Master switch indicating if the developer studio is active.
@@ -35,4 +37,20 @@ class DioStudioConfig {
 
   /// Active feature set to tree-shake or toggle capabilities at startup.
   final Set<StudioFeature> enabledFeatures;
+
+  /// The compile-time safe URL registry.
+  final ApiRegistry? registry;
+
+  /// Creates a copy of this config with the given fields replaced.
+  DioStudioConfig copyWith({
+    bool? enabled,
+    Set<StudioFeature>? enabledFeatures,
+    ApiRegistry? registry,
+  }) {
+    return DioStudioConfig(
+      enabled: enabled ?? this.enabled,
+      enabledFeatures: enabledFeatures ?? this.enabledFeatures,
+      registry: registry ?? this.registry,
+    );
+  }
 }
