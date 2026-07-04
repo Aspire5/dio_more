@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:dio_more/dio_more.dart';
 import 'package:dio_more/src/core/context.dart';
 import 'package:dio_more/src/core/event_bus.dart';

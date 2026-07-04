@@ -4,6 +4,24 @@ Chronological record of all development activity on dio_more.
 
 ---
 
+## 2026-07-04 - Package Score Optimization & Example Restructuring
+
+**What was done:**
+- Created a canonical `example/example.dart` demonstrating standard package usage to allow automatic detection by pub.dev.
+- Added explicit constructor documentation to `ApiRegistryBuilder` to resolve missing dartdoc comments.
+- Limited re-exported symbols from `package:dio/dio.dart` to core standard classes, removing unneeded advanced classes from our documentation footprint.
+- Updated public API and API stability documentation to match exact exports.
+- Run `dart format`, `dart analyze`, and `dart doc` to verify 0 errors/warnings and complete documentation coverage.
+
+**Decisions made:**
+- None.
+
+**Notes:**
+- Maximized pub.dev score checklist items, achieving 100% documentation coverage and proper layout detection.
+
+---
+
+
 ## 2026-07-04 - Release Audit & API Spacing Sync
 
 **What was done:**

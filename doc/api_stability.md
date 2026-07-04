@@ -31,14 +31,15 @@ APIs that have been deleted. Their signatures and histories are tracked here for
 | ------ | ---------------- | ----------------- | ----- |
 | `DioStudio` | `package:dio_more/dio_more.dart` | `0.0.1` | Main controller interface |
 | `DioStudioConfig` | `package:dio_more/dio_more.dart` | `0.0.1` | Configuration options model |
-| `DioStudioPlugin` | `package:dio_more/dio_more.dart` | `0.0.1` | Abstract base plugin class |
-| `StudioContext` | `package:dio_more/dio_more.dart` | `0.0.1` | Typed plugin service provider |
-| `StorageAdapter` | `package:dio_more/dio_more.dart` | `0.0.1` | Generic storage abstraction |
-| `RequestPlugin` | `package:dio_more/dio_more.dart` | `0.0.1` | Request interception mixin |
-| `ResponsePlugin` | `package:dio_more/dio_more.dart` | `0.0.1` | Response interception mixin |
-| `ErrorPlugin` | `package:dio_more/dio_more.dart` | `0.0.1` | Error interception mixin |
-| `LifecyclePlugin` | `package:dio_more/dio_more.dart` | `0.0.1` | Lifecycle hooks mixin |
 | `DioStudioExtension` | `package:dio_more/dio_more.dart` | `0.0.1` | Extension methods on `Dio` |
+| `Logging` | `package:dio_more/dio_more.dart` | `0.9.0` | Console logging presets |
+| `EndpointId` | `package:dio_more/dio_more.dart` | `0.9.0` | Strongly-typed endpoint business identifier |
+| `EnvironmentId` | `package:dio_more/dio_more.dart` | `0.9.0` | Strongly-typed environment identifier |
+| `ServiceId` | `package:dio_more/dio_more.dart` | `0.9.0` | Strongly-typed service path prefix |
+| `ApiRegistry` | `package:dio_more/dio_more.dart` | `0.9.0` | URL configurations registry |
+| `ApiRegistryBuilder` | `package:dio_more/dio_more.dart` | `0.9.0` | Builder for URL configurations registry |
+| `OptionsStudioExtension` | `package:dio_more/dio_more.dart` | `0.9.0` | Request options helper methods |
+
 
 ### Experimental APIs
 - *None currently.*

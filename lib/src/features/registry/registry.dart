@@ -66,6 +66,9 @@ class ApiRegistry {
 
 /// Builder providing validation and compilation of api configurations.
 class ApiRegistryBuilder {
+  /// Create a new [ApiRegistryBuilder] instance.
+  ApiRegistryBuilder();
+
   final Map<EnvironmentId, String> _environments = {};
   final Map<ServiceId, String> _services = {};
   final List<EndpointDefinition> _endpoints = [];

@@ -10,7 +10,19 @@
 library;
 
 // Re-export standard Dio HTTP package classes so users have a drop-in experience.
-export 'package:dio/dio.dart';
+export 'package:dio/dio.dart'
+    show
+        Dio,
+        RequestOptions,
+        Response,
+        DioException,
+        Options,
+        Interceptor,
+        InterceptorsWrapper,
+        FormData,
+        MultipartFile,
+        Headers,
+        CancelToken;
 
 // Core public configurations and controllers
 export 'src/core/config.dart' show DioStudioConfig;

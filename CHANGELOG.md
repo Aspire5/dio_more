@@ -24,6 +24,9 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Fixed short-circuit bug in `RequestLoggingPlugin` by removing manual `handler.next` calls, enabling multi-plugin sequential execution.
 - Removed unused internal event classes (`RequestCancelledEvent`, `ConnectionThrottledEvent`, `StudioInitializedEvent`, `ConfigChangedEvent`) to prune dead code.
 - Synced README examples to use the correct `:` path parameter template format.
+- Created a canonical `example/example.dart` demonstrating standard package usage to allow automatic detection by pub.dev.
+- Added explicit constructor documentation to `ApiRegistryBuilder` to resolve missing dartdoc comments.
+- Limited re-exported symbols from `package:dio/dio.dart` to core standard classes, removing unneeded advanced classes from our documentation footprint.
 
 > [!NOTE]
 > This is the initial public preview release of `dio_more`. Community feedback may result in minor breaking API changes before the official stable 1.0.0 release.

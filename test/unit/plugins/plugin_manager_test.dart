@@ -1,4 +1,4 @@
-import 'package:dio_more/dio_more.dart';
+import 'package:dio/dio.dart';
 import 'package:dio_more/src/plugins/plugin.dart';
 import 'package:dio_more/src/plugins/plugin_manager.dart';
 import 'package:test/test.dart';
