@@ -14,14 +14,18 @@ enum StudioLogLevel {
 }
 
 /// Logging callback definition for custom redirect handlers.
-typedef LoggerCallback = void Function(StudioLogLevel level, String message, Object? error, StackTrace? stackTrace);
+typedef LoggerCallback =
+    void Function(
+      StudioLogLevel level,
+      String message,
+      Object? error,
+      StackTrace? stackTrace,
+    );
 
 /// Internal diagnostics logging utility for [DioStudio].
 class StudioLogger {
   /// Create a new [StudioLogger] interface.
-  StudioLogger({
-    LoggerCallback? onLog,
-  }) : _onLog = onLog;
+  StudioLogger({LoggerCallback? onLog}) : _onLog = onLog;
 
   final LoggerCallback? _onLog;
 
@@ -52,7 +56,9 @@ class StudioLogger {
       final formatted = '$tag $message';
       if (error != null) {
         // ignore: avoid_print
-        print('$formatted\nError: $error${stackTrace != null ? '\n$stackTrace' : ''}');
+        print(
+          '$formatted\nError: $error${stackTrace != null ? '\n$stackTrace' : ''}',
+        );
       } else {
         // ignore: avoid_print
         print(formatted);

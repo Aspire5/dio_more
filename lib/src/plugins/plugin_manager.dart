@@ -40,7 +40,11 @@ class PluginManager {
       try {
         _lifecyclePipeline[i].onInit(_context);
       } catch (e, stack) {
-        _context.logger.error('Failed to initialize plugin: ${_lifecyclePipeline[i].runtimeType}', e, stack);
+        _context.logger.error(
+          'Failed to initialize plugin: ${_lifecyclePipeline[i].runtimeType}',
+          e,
+          stack,
+        );
       }
     }
   }
@@ -50,9 +54,18 @@ class PluginManager {
     for (var i = 0; i < _lifecyclePipeline.length; i++) {
       try {
         _lifecyclePipeline[i].onEnable();
-        _context.eventBus.fire(PluginStateChangedEvent(_lifecyclePipeline[i] as DioStudioPlugin, true));
+        _context.eventBus.fire(
+          PluginStateChangedEvent(
+            _lifecyclePipeline[i] as DioStudioPlugin,
+            true,
+          ),
+        );
       } catch (e, stack) {
-        _context.logger.error('Failed to enable plugin: ${_lifecyclePipeline[i].runtimeType}', e, stack);
+        _context.logger.error(
+          'Failed to enable plugin: ${_lifecyclePipeline[i].runtimeType}',
+          e,
+          stack,
+        );
       }
     }
   }
@@ -62,9 +75,18 @@ class PluginManager {
     for (var i = 0; i < _lifecyclePipeline.length; i++) {
       try {
         _lifecyclePipeline[i].onDisable();
-        _context.eventBus.fire(PluginStateChangedEvent(_lifecyclePipeline[i] as DioStudioPlugin, false));
+        _context.eventBus.fire(
+          PluginStateChangedEvent(
+            _lifecyclePipeline[i] as DioStudioPlugin,
+            false,
+          ),
+        );
       } catch (e, stack) {
-        _context.logger.error('Failed to disable plugin: ${_lifecyclePipeline[i].runtimeType}', e, stack);
+        _context.logger.error(
+          'Failed to disable plugin: ${_lifecyclePipeline[i].runtimeType}',
+          e,
+          stack,
+        );
       }
     }
   }
@@ -76,7 +98,11 @@ class PluginManager {
         _lifecyclePipeline[i].onDispose();
       } catch (e, stack) {
         if (_initialized) {
-          _context.logger.error('Failed to dispose plugin: ${_lifecyclePipeline[i].runtimeType}', e, stack);
+          _context.logger.error(
+            'Failed to dispose plugin: ${_lifecyclePipeline[i].runtimeType}',
+            e,
+            stack,
+          );
         }
       }
     }
@@ -113,12 +139,12 @@ class PluginManager {
     if (plugins.isEmpty) return const [];
 
     final Map<String, DioStudioPlugin> pluginMap = {
-      for (final p in plugins) p.metadata.id: p
+      for (final p in plugins) p.metadata.id: p,
     };
 
     // Build dependency graph
     final Map<String, Set<String>> graph = {
-      for (final p in plugins) p.metadata.id: <String>{}
+      for (final p in plugins) p.metadata.id: <String>{},
     };
 
     for (final p in plugins) {
@@ -127,7 +153,9 @@ class PluginManager {
       // 1. dependsOn constraints
       for (final dep in p.dependsOn) {
         if (!pluginMap.containsKey(dep)) {
-          throw StateError('Missing required dependency "$dep" for plugin "$id"');
+          throw StateError(
+            'Missing required dependency "$dep" for plugin "$id"',
+          );
         }
         graph[dep]!.add(id); // dep runs before id (dep -> id edge)
       }
@@ -148,9 +176,7 @@ class PluginManager {
     }
 
     // Topological Sort (Kahn's algorithm)
-    final Map<String, int> inDegree = {
-      for (final id in graph.keys) id: 0
-    };
+    final Map<String, int> inDegree = {for (final id in graph.keys) id: 0};
 
     for (final edges in graph.values) {
       for (final target in edges) {
@@ -184,7 +210,9 @@ class PluginManager {
     }
 
     if (result.length != plugins.length) {
-      throw StateError('Circular dependency detected in plugin registration configuration.');
+      throw StateError(
+        'Circular dependency detected in plugin registration configuration.',
+      );
     }
 
     return result;

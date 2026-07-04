@@ -13,7 +13,8 @@ library;
 export 'package:dio/dio.dart';
 
 // Core public configurations and controllers
-export 'src/core/config.dart' show DioStudioConfig, StudioFeature, StudioFeatures;
+export 'src/core/config.dart'
+    show DioStudioConfig, StudioFeature, StudioFeatures;
 export 'src/core/context.dart' show StudioContext;
 export 'src/core/storage.dart' show StorageAdapter;
 export 'src/core/studio.dart' show DioStudio;
@@ -35,7 +36,8 @@ export 'src/plugins/plugin.dart'
         LifecyclePlugin;
 
 // Registry Features
-export 'src/features/registry/endpoint.dart' show EndpointId, EndpointDefinition;
+export 'src/features/registry/endpoint.dart'
+    show EndpointId, EndpointDefinition;
 export 'src/features/registry/registry.dart'
     show
         EnvironmentId,
@@ -43,4 +45,3 @@ export 'src/features/registry/registry.dart'
         ApiRegistry,
         ApiRegistryBuilder,
         OptionsStudioExtension;
-

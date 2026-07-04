@@ -26,6 +26,7 @@ abstract final class StudioFeatures {
   static const inspector = StudioFeature('core.inspector');
 }
 
+/// Configuration options container for [DioStudio].
 class DioStudioConfig {
   /// Create a new [DioStudioConfig] options instance.
   const DioStudioConfig({

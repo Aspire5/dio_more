@@ -63,7 +63,10 @@ abstract interface class RequestPlugin {
 /// Mixin interface hooking into the response interception hot path.
 abstract interface class ResponsePlugin {
   /// Invoked when responses are returned to callers.
-  void onResponse(Response<dynamic> response, ResponseInterceptorHandler handler);
+  void onResponse(
+    Response<dynamic> response,
+    ResponseInterceptorHandler handler,
+  );
 }
 
 /// Mixin interface hooking into the error interception hot path.

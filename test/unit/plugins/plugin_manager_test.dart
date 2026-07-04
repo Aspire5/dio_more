@@ -17,14 +17,14 @@ class MockBasePlugin extends DioStudioPlugin {
 
   @override
   PluginMetadata get metadata => PluginMetadata(
-        id: id,
-        name: 'Mock $id',
-        version: '1.0.0',
-        author: 'test',
-        description: 'test',
-        minStudioVersion: '0.0.1',
-        supportedDioVersion: '5.x.x',
-      );
+    id: id,
+    name: 'Mock $id',
+    version: '1.0.0',
+    author: 'test',
+    description: 'test',
+    minStudioVersion: '0.0.1',
+    supportedDioVersion: '5.x.x',
+  );
 
   @override
   Set<String> get dependsOn => depends;
@@ -56,7 +56,7 @@ void main() {
 
       // Registration is reversed (B, A)
       final manager = PluginManager([pluginB, pluginA]);
-      
+
       // Should sort as (A, B)
       final sorted = manager.requestPipeline;
       expect(sorted, hasLength(2));
@@ -70,13 +70,17 @@ void main() {
       const pluginRecorder = RequestMockPlugin(id: 'recorder', after: {'mock'});
 
       // Register out of order
-      final manager = PluginManager([pluginNetwork, pluginRecorder, pluginMock]);
+      final manager = PluginManager([
+        pluginNetwork,
+        pluginRecorder,
+        pluginMock,
+      ]);
 
       final pipeline = manager.requestPipeline;
       expect(pipeline, hasLength(3));
-      
+
       final ids = pipeline.cast<MockBasePlugin>().map((p) => p.id).toList();
-      
+
       expect(ids.indexOf('mock'), lessThan(ids.indexOf('network')));
       expect(ids.indexOf('mock'), lessThan(ids.indexOf('recorder')));
     });

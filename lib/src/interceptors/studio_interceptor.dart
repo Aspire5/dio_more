@@ -29,7 +29,10 @@ class StudioInterceptor extends Interceptor {
   }
 
   @override
-  void onResponse(Response<dynamic> response, ResponseInterceptorHandler handler) {
+  void onResponse(
+    Response<dynamic> response,
+    ResponseInterceptorHandler handler,
+  ) {
     // Lazy Event Bus dispatch
     if (_context.eventBus.hasSubscribers(AfterResponseEvent)) {
       _context.eventBus.fire(AfterResponseEvent(response));

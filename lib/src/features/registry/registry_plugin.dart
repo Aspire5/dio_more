@@ -5,7 +5,8 @@ import 'endpoint.dart';
 import 'registry.dart';
 
 /// Core plugin resolving registered endpoints, base URLs, and path parameters in O(1) time.
-class ApiRegistryPlugin extends DioStudioPlugin implements RequestPlugin, LifecyclePlugin {
+class ApiRegistryPlugin extends DioStudioPlugin
+    implements RequestPlugin, LifecyclePlugin {
   /// Create a new [ApiRegistryPlugin] instance.
   ApiRegistryPlugin();
 
@@ -13,14 +14,15 @@ class ApiRegistryPlugin extends DioStudioPlugin implements RequestPlugin, Lifecy
 
   @override
   PluginMetadata get metadata => const PluginMetadata(
-        id: 'dio_studio.registry',
-        name: 'API Registry Plugin',
-        version: '1.0.0',
-        author: 'Antigravity Team',
-        description: 'Resolves registry endpoint paths, base URLs, and path parameters in constant time.',
-        minStudioVersion: '1.0.0',
-        supportedDioVersion: '5.x.x',
-      );
+    id: 'dio_studio.registry',
+    name: 'API Registry Plugin',
+    version: '1.0.0',
+    author: 'Antigravity Team',
+    description:
+        'Resolves registry endpoint paths, base URLs, and path parameters in constant time.',
+    minStudioVersion: '1.0.0',
+    supportedDioVersion: '5.x.x',
+  );
 
   @override
   void onInit(StudioContext context) {
@@ -56,7 +58,9 @@ class ApiRegistryPlugin extends DioStudioPlugin implements RequestPlugin, Lifecy
     options.extra[StudioExtra.endpointDefinition] = definition;
 
     // Retrieve path parameters passed via Options extension
-    final pathParams = (options.extra[StudioExtra.pathParameters] as Map<String, Object?>?) ?? const {};
+    final pathParams =
+        (options.extra[StudioExtra.pathParameters] as Map<String, Object?>?) ??
+        const {};
 
     // Validate path parameters and resolve the relative path
     final relativePath = _resolveAndValidatePath(definition, pathParams);
@@ -85,7 +89,10 @@ class ApiRegistryPlugin extends DioStudioPlugin implements RequestPlugin, Lifecy
     }
   }
 
-  String _resolveAndValidatePath(EndpointDefinition definition, Map<String, Object?> pathParams) {
+  String _resolveAndValidatePath(
+    EndpointDefinition definition,
+    Map<String, Object?> pathParams,
+  ) {
     // Check for unknown parameters passed to the endpoint
     for (final paramKey in pathParams.keys) {
       final isParamInTemplate = definition.compiledSegments
@@ -123,7 +130,11 @@ class ApiRegistryPlugin extends DioStudioPlugin implements RequestPlugin, Lifecy
     return buffer.toString();
   }
 
-  String _normalizeUrl(String baseUrl, String servicePath, String relativePath) {
+  String _normalizeUrl(
+    String baseUrl,
+    String servicePath,
+    String relativePath,
+  ) {
     var base = baseUrl.trim();
     var service = servicePath.trim();
     var relative = relativePath.trim();

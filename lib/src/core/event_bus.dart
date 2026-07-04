@@ -18,10 +18,12 @@ class StudioEventBus {
     return _controller.stream
         .where((event) => event is T)
         .cast<T>()
-        .transform(StreamTransformer<T, T>.fromHandlers(
-          handleData: (data, sink) => sink.add(data),
-          handleDone: (sink) => sink.close(),
-        ))
+        .transform(
+          StreamTransformer<T, T>.fromHandlers(
+            handleData: (data, sink) => sink.add(data),
+            handleDone: (sink) => sink.close(),
+          ),
+        )
         .asBroadcastStream(
           onListen: (_) => _subscribers[T] = (_subscribers[T] ?? 0) + 1,
           onCancel: (_) {

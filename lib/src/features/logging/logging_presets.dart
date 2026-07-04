@@ -1,5 +1,3 @@
-import '../../features/registry/registry.dart';
-
 /// Configuration for console logging in `dio_studio`.
 ///
 /// Exposes predefined immutable presets (e.g., [Logging.all], [Logging.errorsOnly],

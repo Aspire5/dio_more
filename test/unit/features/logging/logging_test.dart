@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:dio/dio.dart';
 import 'package:dio_studio/dio_studio.dart';
 import 'package:test/test.dart';
 import 'package:dio_studio/src/features/logging/log_filter.dart';
@@ -51,14 +50,14 @@ void main() {
   });
 
   group('LogFilter', () {
-    final configAll = const DioStudioConfig(logging: Logging.all);
-    final configErrors = const DioStudioConfig(logging: Logging.errorsOnly);
-    final endpointAuth = const EndpointId('auth.login');
-    final endpointUser = const EndpointId('user.profile');
+    const configAll = DioStudioConfig(logging: Logging.all);
+    const configErrors = DioStudioConfig(logging: Logging.errorsOnly);
+    const endpointAuth = EndpointId('auth.login');
+    const endpointUser = EndpointId('user.profile');
 
     test('respects active categories', () {
       final options = RequestOptions(path: '/login');
-      
+
       expect(LogFilter.shouldLogRequest(options, configAll), isTrue);
       expect(LogFilter.shouldLogResponse(options, configAll), isTrue);
       expect(LogFilter.shouldLogError(options, configAll), isTrue);
@@ -71,9 +70,17 @@ void main() {
     test('filters via logOnly focus list when populated', () {
       final registry = ApiRegistry.builder()
           .environment(EnvironmentId.development, baseUrl: 'https://dev.com')
-          .service(ServiceId('api'), path: '')
-          .endpoint(id: endpointAuth, path: '/login', service: ServiceId('api'))
-          .endpoint(id: endpointUser, path: '/user', service: ServiceId('api'))
+          .service(const ServiceId('api'), path: '')
+          .endpoint(
+            id: endpointAuth,
+            path: '/login',
+            service: const ServiceId('api'),
+          )
+          .endpoint(
+            id: endpointUser,
+            path: '/user',
+            service: const ServiceId('api'),
+          )
           .build(EnvironmentId.development);
 
       final configFocused = DioStudioConfig(
@@ -84,11 +91,13 @@ void main() {
 
       // Setup RequestOptions with matching registry/endpoint
       final authOptions = RequestOptions(path: 'auth.login')
-        ..extra['dio_studio.endpoint_definition'] = registry.endpoints[endpointAuth]
+        ..extra['dio_studio.endpoint_definition'] =
+            registry.endpoints[endpointAuth]
         ..extra['dio_studio.registry'] = registry;
 
       final userOptions = RequestOptions(path: 'user.profile')
-        ..extra['dio_studio.endpoint_definition'] = registry.endpoints[endpointUser]
+        ..extra['dio_studio.endpoint_definition'] =
+            registry.endpoints[endpointUser]
         ..extra['dio_studio.registry'] = registry;
 
       final rawOptions = RequestOptions(path: '/some-other-raw-path');
@@ -108,7 +117,7 @@ void main() {
     test('formats payload under 100 KB', () {
       final options = RequestOptions(path: '/api', data: {'name': 'Alice'});
       final output = LogFormatter.formatRequest(options, 1);
-      
+
       expect(output, contains('name'));
       expect(output, contains('Alice'));
       expect(output, contains('┌── [Req#001] GET /api'));
@@ -119,7 +128,12 @@ void main() {
       final options = RequestOptions(path: '/api', data: hugeData);
       final output = LogFormatter.formatRequest(options, 2);
 
-      expect(output, contains('[Body omitted: size is 101.0 KB, exceeds maximum print threshold of 100 KB]'));
+      expect(
+        output,
+        contains(
+          '[Body omitted: size is 101.0 KB, exceeds maximum print threshold of 100 KB]',
+        ),
+      );
       expect(output, isNot(contains('xxxxx')));
     });
 
@@ -142,13 +156,16 @@ void main() {
   group('LogWriter', () {
     test('splits lines and prints individually', () {
       final printedLines = <String>[];
-      runZoned(() {
-        LogWriter.printLog('line1\nline2\nline3');
-      }, zoneSpecification: ZoneSpecification(
-        print: (self, parent, zone, line) {
-          printedLines.add(line);
+      runZoned(
+        () {
+          LogWriter.printLog('line1\nline2\nline3');
         },
-      ));
+        zoneSpecification: ZoneSpecification(
+          print: (self, parent, zone, line) {
+            printedLines.add(line);
+          },
+        ),
+      );
 
       expect(printedLines, ['line1', 'line2', 'line3']);
     });

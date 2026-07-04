@@ -13,9 +13,9 @@ void main() {
     test('lazy checking returns true when subscribed', () async {
       final eventBus = StudioEventBus();
       final subscription = eventBus.on<BeforeRequestEvent>().listen((event) {});
-      
+
       expect(eventBus.hasSubscribers(BeforeRequestEvent), isTrue);
-      
+
       await subscription.cancel();
       expect(eventBus.hasSubscribers(BeforeRequestEvent), isFalse);
     });

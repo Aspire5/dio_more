@@ -47,7 +47,9 @@ class EndpointDefinition {
 
     for (final Match match in paramRegExp.allMatches(pathTemplate)) {
       if (match.start > lastMatchEnd) {
-        segments.add(LiteralSegment(pathTemplate.substring(lastMatchEnd, match.start)));
+        segments.add(
+          LiteralSegment(pathTemplate.substring(lastMatchEnd, match.start)),
+        );
       }
       segments.add(ParamSegment(match.group(1)!));
       lastMatchEnd = match.end;

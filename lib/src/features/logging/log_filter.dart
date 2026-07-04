@@ -14,7 +14,10 @@ class LogFilter {
   }
 
   /// Evaluates if the response segment should be logged.
-  static bool shouldLogResponse(RequestOptions options, DioStudioConfig config) {
+  static bool shouldLogResponse(
+    RequestOptions options,
+    DioStudioConfig config,
+  ) {
     if (!config.logging.response) return false;
     return _matchesLogOnly(options, config);
   }

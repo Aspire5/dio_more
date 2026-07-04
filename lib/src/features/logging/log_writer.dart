@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 /// Utility to write console logs line-by-line.
 ///
 /// Prevents OS-level log truncation (e.g. Android logcat 4KB truncation limit)

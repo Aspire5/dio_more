@@ -15,13 +15,13 @@ import '../plugins/plugin_manager.dart';
 /// Master manager controlling integration, configuration, and plugins.
 class DioStudio {
   DioStudio._(this.dio, this._pluginManager, this._eventBus, this._logger)
-      : _config = const DioStudioConfig(),
-        _context = StudioContext(
-          dio: dio,
-          config: const DioStudioConfig(),
-          logger: _logger,
-          eventBus: _eventBus,
-        ) {
+    : _config = const DioStudioConfig(),
+      _context = StudioContext(
+        dio: dio,
+        config: const DioStudioConfig(),
+        logger: _logger,
+        eventBus: _eventBus,
+      ) {
     _interceptor = StudioInterceptor(_context, _pluginManager);
   }
 
@@ -62,7 +62,9 @@ class DioStudio {
     Logging logging = Logging.all,
     Set<EndpointId> logOnly = const {},
   }) {
-    if (_disposed) throw StateError('Cannot initialize a disposed DioStudio instance.');
+    if (_disposed) {
+      throw StateError('Cannot initialize a disposed DioStudio instance.');
+    }
     if (_initialized) return;
     _initialized = true;
 
@@ -75,9 +77,7 @@ class DioStudio {
     _context.config = _config;
 
     // Build internal plugins list
-    final activePlugins = <DioStudioPlugin>[
-      ApiRegistryPlugin(),
-    ];
+    final activePlugins = <DioStudioPlugin>[ApiRegistryPlugin()];
 
     const bool kReleaseMode = bool.fromEnvironment('dart.vm.product');
     const bool kProfileMode = bool.fromEnvironment('dart.vm.profile');

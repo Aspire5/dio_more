@@ -77,53 +77,62 @@ void main() {
       );
     });
 
-    test('throws ArgumentError if endpoint references unregistered service', () {
-      expect(
-        () => ApiRegistry.builder()
-            .environment(envProduction, baseUrl: 'https://production.com')
-            .endpoint(
-              id: const EndpointId('auth.login'),
-              path: '/login',
-              service: serviceAuth,
-            )
-            .build(envProduction),
-        throwsArgumentError,
-      );
-    });
+    test(
+      'throws ArgumentError if endpoint references unregistered service',
+      () {
+        expect(
+          () => ApiRegistry.builder()
+              .environment(envProduction, baseUrl: 'https://production.com')
+              .endpoint(
+                id: const EndpointId('auth.login'),
+                path: '/login',
+                service: serviceAuth,
+              )
+              .build(envProduction),
+          throwsArgumentError,
+        );
+      },
+    );
 
-    test('throws ArgumentError on duplicate path template under same service', () {
-      expect(
-        () => ApiRegistry.builder()
-            .environment(envProduction, baseUrl: 'https://production.com')
-            .service(serviceAuth, path: '/auth')
-            .endpoint(
-              id: const EndpointId('auth.login'),
-              path: '/login',
-              service: serviceAuth,
-            )
-            .endpoint(
-              id: const EndpointId('auth.signin'),
-              path: '/login',
-              service: serviceAuth,
-            )
-            .build(envProduction),
-        throwsArgumentError,
-      );
-    });
+    test(
+      'throws ArgumentError on duplicate path template under same service',
+      () {
+        expect(
+          () => ApiRegistry.builder()
+              .environment(envProduction, baseUrl: 'https://production.com')
+              .service(serviceAuth, path: '/auth')
+              .endpoint(
+                id: const EndpointId('auth.login'),
+                path: '/login',
+                service: serviceAuth,
+              )
+              .endpoint(
+                id: const EndpointId('auth.signin'),
+                path: '/login',
+                service: serviceAuth,
+              )
+              .build(envProduction),
+          throwsArgumentError,
+        );
+      },
+    );
 
-    test('throws ArgumentError on duplicate placeholder parameter name in template', () {
-      expect(
-        () => ApiRegistry.builder()
-            .environment(envProduction, baseUrl: 'https://production.com')
-            .service(serviceAuth, path: '/auth')
-            .endpoint(
-              id: const EndpointId('auth.login'),
-              path: '/login/:id/profile/:id',
-              service: serviceAuth,
-            )
-            .build(envProduction),
-        throwsArgumentError,
-      );
-    });
+    test(
+      'throws ArgumentError on duplicate placeholder parameter name in template',
+      () {
+        expect(
+          () => ApiRegistry.builder()
+              .environment(envProduction, baseUrl: 'https://production.com')
+              .service(serviceAuth, path: '/auth')
+              .endpoint(
+                id: const EndpointId('auth.login'),
+                path: '/login/:id/profile/:id',
+                service: serviceAuth,
+              )
+              .build(envProduction),
+          throwsArgumentError,
+        );
+      },
+    );
   });
 }

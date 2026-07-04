@@ -11,8 +11,6 @@ class LogFormatter {
   static const _red = '\x1B[31m';
   static const _yellow = '\x1B[33m';
   static const _blue = '\x1B[34m';
-  static const _cyan = '\x1B[36m';
-  static const _gray = '\x1B[90m';
 
   /// Format requests into Unicode box blocks.
   static String formatRequest(RequestOptions options, int reqId) {
@@ -28,7 +26,9 @@ class LogFormatter {
     final registry = options.extra[StudioExtra.registry];
     if (definition is EndpointDefinition && registry is ApiRegistry) {
       final env = registry.activeEnvironment.value;
-      sb.writeln('$_blue│$_reset   Endpoint: ${definition.id.value} (Environment: $env)');
+      sb.writeln(
+        '$_blue│$_reset   Endpoint: ${definition.id.value} (Environment: $env)',
+      );
     }
 
     // Headers
@@ -48,23 +48,33 @@ class LogFormatter {
       sb.writeln(_indentBody(info.content));
     }
 
-    sb.write('$_blue└──────────────────────────────────────────────────────────$_reset');
+    sb.write(
+      '$_blue└──────────────────────────────────────────────────────────$_reset',
+    );
     return sb.toString();
   }
 
   /// Format responses into Unicode box blocks.
-  static String formatResponse(Response<dynamic> response, int reqId, Duration? duration) {
+  static String formatResponse(
+    Response<dynamic> response,
+    int reqId,
+    Duration? duration,
+  ) {
     final sb = StringBuffer();
     final statusCode = response.statusCode ?? 0;
     final statusMessage = response.statusMessage ?? 'Unknown';
-    final elapsedStr = duration != null ? ' (${duration.inMilliseconds}ms)' : '';
+    final elapsedStr = duration != null
+        ? ' (${duration.inMilliseconds}ms)'
+        : '';
 
     // Color code based on response status
     final isSuccess = statusCode >= 200 && statusCode < 300;
     final color = isSuccess ? _green : _yellow;
 
     // Header segment
-    sb.writeln('$color┌── [Res#${_padId(reqId)}] $statusCode $statusMessage$elapsedStr$_reset');
+    sb.writeln(
+      '$color┌── [Res#${_padId(reqId)}] $statusCode $statusMessage$elapsedStr$_reset',
+    );
 
     // Headers
     sb.writeln('$color│$_reset   Headers:');
@@ -82,10 +92,14 @@ class LogFormatter {
     if (duration != null) {
       sb.writeln('$color│$_reset   Performance:');
       sb.writeln('$color│$_reset     Duration: ${duration.inMilliseconds} ms');
-      sb.writeln('$color│$_reset     Payload Size: ${_formatSize(info.byteLength)}');
+      sb.writeln(
+        '$color│$_reset     Payload Size: ${_formatSize(info.byteLength)}',
+      );
     }
 
-    sb.write('$color└──────────────────────────────────────────────────────────$_reset');
+    sb.write(
+      '$color└──────────────────────────────────────────────────────────$_reset',
+    );
     return sb.toString();
   }
 
@@ -94,12 +108,16 @@ class LogFormatter {
     final sb = StringBuffer();
     final url = error.requestOptions.uri.toString();
     final method = error.requestOptions.method;
-    final elapsedStr = duration != null ? ' (${duration.inMilliseconds}ms)' : '';
+    final elapsedStr = duration != null
+        ? ' (${duration.inMilliseconds}ms)'
+        : '';
     final statusCode = error.response?.statusCode;
     final statusMessage = error.response?.statusMessage ?? 'Unknown';
 
     // Header segment
-    sb.writeln('$_red┌── [Err#${_padId(reqId)}] $method $url$elapsedStr$_reset');
+    sb.writeln(
+      '$_red┌── [Err#${_padId(reqId)}] $method $url$elapsedStr$_reset',
+    );
 
     if (statusCode != null) {
       sb.writeln('$_red│$_reset   HTTP Status: $statusCode $statusMessage');
@@ -119,7 +137,9 @@ class LogFormatter {
       sb.writeln(_indentBody(info.content));
     }
 
-    sb.write('$_red└──────────────────────────────────────────────────────────$_reset');
+    sb.write(
+      '$_red└──────────────────────────────────────────────────────────$_reset',
+    );
     return sb.toString();
   }
 
@@ -160,7 +180,9 @@ class LogFormatter {
     for (final file in formData.files) {
       final len = file.value.length;
       totalBytes += len;
-      sb.writeln('  * ${file.key}: ${file.value.filename ?? "Unnamed"} ($len bytes)');
+      sb.writeln(
+        '  * ${file.key}: ${file.value.filename ?? "Unnamed"} ($len bytes)',
+      );
     }
     sb.write('- Approximate Total Size: ${_formatSize(totalBytes)}');
     return sb.toString();

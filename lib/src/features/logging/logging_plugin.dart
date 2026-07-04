@@ -23,14 +23,15 @@ class RequestLoggingPlugin extends DioStudioPlugin
 
   @override
   PluginMetadata get metadata => const PluginMetadata(
-        id: 'dio_studio.logging',
-        name: 'Request Logging Plugin',
-        version: '1.0.0',
-        author: 'Antigravity Team',
-        description: 'Formatted Unicode debug logging for network requests, responses, and errors.',
-        minStudioVersion: '1.0.0',
-        supportedDioVersion: '5.x.x',
-      );
+    id: 'dio_studio.logging',
+    name: 'Request Logging Plugin',
+    version: '1.0.0',
+    author: 'Antigravity Team',
+    description:
+        'Formatted Unicode debug logging for network requests, responses, and errors.',
+    minStudioVersion: '1.0.0',
+    supportedDioVersion: '5.x.x',
+  );
 
   @override
   Set<String> get runAfter => const {'dio_studio.registry'};
@@ -64,14 +65,20 @@ class RequestLoggingPlugin extends DioStudioPlugin
   }
 
   @override
-  void onResponse(Response<dynamic> response, ResponseInterceptorHandler handler) {
+  void onResponse(
+    Response<dynamic> response,
+    ResponseInterceptorHandler handler,
+  ) {
     final options = response.requestOptions;
     final reqId = options.extra[_requestIdKey] as int?;
 
-    if (reqId != null && LogFilter.shouldLogResponse(options, _context.config)) {
+    if (reqId != null &&
+        LogFilter.shouldLogResponse(options, _context.config)) {
       final startTime = options.extra[_startTimeKey] as int?;
       final duration = startTime != null
-          ? Duration(milliseconds: DateTime.now().millisecondsSinceEpoch - startTime)
+          ? Duration(
+              milliseconds: DateTime.now().millisecondsSinceEpoch - startTime,
+            )
           : null;
 
       final logText = LogFormatter.formatResponse(response, reqId, duration);
@@ -89,7 +96,9 @@ class RequestLoggingPlugin extends DioStudioPlugin
     if (reqId != null && LogFilter.shouldLogError(options, _context.config)) {
       final startTime = options.extra[_startTimeKey] as int?;
       final duration = startTime != null
-          ? Duration(milliseconds: DateTime.now().millisecondsSinceEpoch - startTime)
+          ? Duration(
+              milliseconds: DateTime.now().millisecondsSinceEpoch - startTime,
+            )
           : null;
 
       final logText = LogFormatter.formatError(err, reqId, duration);

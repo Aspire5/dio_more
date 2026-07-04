@@ -8,18 +8,19 @@ import 'package:test/test.dart';
 class StubRequestPlugin extends DioStudioPlugin implements RequestPlugin {
   StubRequestPlugin({required this.onRequestCallback});
 
-  final void Function(RequestOptions options, RequestInterceptorHandler handler) onRequestCallback;
+  final void Function(RequestOptions options, RequestInterceptorHandler handler)
+  onRequestCallback;
 
   @override
   PluginMetadata get metadata => const PluginMetadata(
-        id: 'test.stub',
-        name: 'Stub',
-        version: '1.0.0',
-        author: 'test',
-        description: 'test',
-        minStudioVersion: '0.0.1',
-        supportedDioVersion: '5.x.x',
-      );
+    id: 'test.stub',
+    name: 'Stub',
+    version: '1.0.0',
+    author: 'test',
+    description: 'test',
+    minStudioVersion: '0.0.1',
+    supportedDioVersion: '5.x.x',
+  );
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
@@ -34,7 +35,7 @@ void main() {
       const config = DioStudioConfig();
       final logger = StudioLogger();
       final eventBus = StudioEventBus();
-      
+
       var intercepted = false;
       final stub = StubRequestPlugin(
         onRequestCallback: (options, handler) {

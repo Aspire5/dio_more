@@ -33,11 +33,7 @@ extension DioStudioExtension on Dio {
     if (studio.isInitialized) {
       return this;
     }
-    studio.initialize(
-      registry: registry,
-      logging: logging,
-      logOnly: logOnly,
-    );
+    studio.initialize(registry: registry, logging: logging, logOnly: logOnly);
     return this;
   }
 }

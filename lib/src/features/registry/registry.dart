@@ -33,9 +33,9 @@ class ApiRegistry {
     required Map<EnvironmentId, String> environments,
     required Map<ServiceId, String> services,
     required Map<EndpointId, EndpointDefinition> endpoints,
-  })  : _environments = Map.unmodifiable(environments),
-        _services = Map.unmodifiable(services),
-        endpoints = Map.unmodifiable(endpoints);
+  }) : _environments = Map.unmodifiable(environments),
+       _services = Map.unmodifiable(services),
+       endpoints = Map.unmodifiable(endpoints);
 
   /// Currently active environment.
   final EnvironmentId activeEnvironment;
@@ -53,7 +53,9 @@ class ApiRegistry {
   String get activeBaseUrl {
     final url = _environments[activeEnvironment];
     if (url == null) {
-      throw StateError('Active environment "$activeEnvironment" is not configured.');
+      throw StateError(
+        'Active environment "$activeEnvironment" is not configured.',
+      );
     }
     return url;
   }
@@ -89,14 +91,16 @@ class ApiRegistryBuilder {
     bool requiresAuthentication = false,
     Map<String, String>? defaultHeaders,
   }) {
-    _endpoints.add(EndpointDefinition(
-      id: id,
-      pathTemplate: path,
-      service: service,
-      timeout: timeout,
-      requiresAuthentication: requiresAuthentication,
-      defaultHeaders: defaultHeaders,
-    ));
+    _endpoints.add(
+      EndpointDefinition(
+        id: id,
+        pathTemplate: path,
+        service: service,
+        timeout: timeout,
+        requiresAuthentication: requiresAuthentication,
+        defaultHeaders: defaultHeaders,
+      ),
+    );
     return this;
   }
 
@@ -110,7 +114,9 @@ class ApiRegistryBuilder {
     final Set<ServiceId> registeredServices = {};
     for (final serviceId in _services.keys) {
       if (!registeredServices.add(serviceId)) {
-        throw ArgumentError('Duplicate service identifier registered: "$serviceId"');
+        throw ArgumentError(
+          'Duplicate service identifier registered: "$serviceId"',
+        );
       }
     }
 
@@ -119,7 +125,9 @@ class ApiRegistryBuilder {
 
     for (final ep in _endpoints) {
       if (compiledEndpoints.containsKey(ep.id)) {
-        throw ArgumentError('Duplicate endpoint identifier registered: "${ep.id}"');
+        throw ArgumentError(
+          'Duplicate endpoint identifier registered: "${ep.id}"',
+        );
       }
 
       if (!_services.containsKey(ep.service)) {
@@ -139,7 +147,9 @@ class ApiRegistryBuilder {
       for (final segment in ep.compiledSegments) {
         if (segment is ParamSegment) {
           if (segment.name.isEmpty) {
-            throw ArgumentError('Empty placeholder name in endpoint "${ep.id}" path template.');
+            throw ArgumentError(
+              'Empty placeholder name in endpoint "${ep.id}" path template.',
+            );
           }
           if (!paramNames.add(segment.name)) {
             throw ArgumentError(
@@ -182,4 +192,3 @@ extension OptionsStudioExtension on Options {
     return copyWith(extra: extraMap);
   }
 }
-
